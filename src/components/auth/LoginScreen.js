@@ -24,7 +24,6 @@ export const LoginScreen = () => {
         e.preventDefault()
         dispatch(startLoginEmailPassword( email, password))
     }
-
     return (
         <div>
             <h3 className="auth__title">Login</h3>
