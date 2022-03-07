@@ -1,8 +1,12 @@
 import React from 'react'
+import moment from 'moment'
 import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
 import { startSavenote, startUploading } from '../../actions/notes'
 
 export const NotesAppBar = () => {
+
+    const today = moment().format("Do MMM YY")
 
     const dispatch = useDispatch()
     const { active } = useSelector(state => state.notes)
@@ -18,9 +22,17 @@ export const NotesAppBar = () => {
     
     const handleFileChange = (e) => {
         const file = e.target.files[0]
-
+   
         if (file ) {
-            dispatch (startUploading(file))
+            if( file.type.includes('image')){
+                dispatch (startUploading(file))
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Subir solo imagenes'
+                  })
+            }
         }
         document.querySelector('#fileSelector').value = '';
     }
@@ -29,7 +41,7 @@ export const NotesAppBar = () => {
 
     return (
         <div className="notes__appbar">
-            <span>28 de Agosto 2021</span>
+            <span>{today}</span>
 
             <input 
                 id="fileSelector"
